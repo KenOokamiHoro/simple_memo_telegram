@@ -143,7 +143,7 @@ def delete(bot,update,args,notice=True):
     if not args:
         update.message.reply_text("汝在说哪个？")
         return
-    chat_id,user_id = get_chat(update)
+    chat_id,user_id = helpers.get_chat(update)
     if not user_id in get_admin_ids(bot, update, chat_id) + [get_author_tag(update,args[0])]:
         update.message.reply_text("汝是咱的什么人啊……不对，咱是汝的什么人啊？")
         print("Unauthorized access denied for {}.".format(chat_id))
