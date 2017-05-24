@@ -1,0 +1,15 @@
+'''
+DO NOT include Telegram Bot API token here ! 
+'''
+import db
+# API token
+token = ""
+
+# Backend database connection URI.
+database = ""
+
+# Bot operators
+operators = ['']
+
+# ignore ugly it _(:з」∠)_
+dbc=db.dbc(database)
