@@ -56,63 +56,32 @@ def add_quick(bot, update, chat_data):
     text = update.message.text.replace(title,"").lstrip()
     chat_data['content'] = text
     chat_data['title'] = title
-    summary(update,chat_data)
-    return CONFIRM
+    success(bot,update,chat_data)
+    return ConversationHandler.END
 
 @helpers.current_conversation
 def add_content(bot, update, chat_data):
     '''ask a memo step 1'''
     text = update.message.text
     chat_data['content'] = text
-    if chat_data.get('title'):
-        summary(update,chat_data)
-        return CONFIRM
-    else:
-        update.message.reply_text('😋 OK，接下来起个标题呗~')
-        return TITLE
+    update.message.reply_text('😋 OK，接下来起个标题呗~')
+    return TITLE
 
 @helpers.current_conversation
 def add_title(bot, update, chat_data):
     '''ask a memo step 2'''
     text = update.message.text
     chat_data['title'] = text
-    if chat_data.get('tag'):
-        summary(update,chat_data)
-        return CONFIRM
-    else:
-        update.message.reply_text('😋 OK，接下来贴个标签呗~（一个词就好啦）')
-        return TAG
+    update.message.reply_text('😋 OK，接下来贴个标签呗~（一个词就好啦）')
+    return TAG
 
 @helpers.current_conversation
 def add_tag(bot, update, chat_data):
     '''ask a memo step 3'''
     text = update.message.text
     chat_data['tag'] = text
-    summary(update,chat_data)
-    return CONFIRM
-
-@helpers.current_conversation
-def add_confirm(bot, update, chat_data):
-    '''ask a memo step 4'''
-    actions = {'看起来不错 🤣':success,'等等好像标题不对 😂': TITLE,
-               '等等好像内容不对 😂': CONTENT,'等等好像标签不对 😂': TAG}
-    try:
-        if update.message.text == '看起来不错 🤣':
-            success(bot,update,chat_data)
-            return ConversationHandler.END
-        else:
-            chat_data['refuse_level']-=1
-            if chat_data['refuse_level'] < 0:
-                terminate(update,chat_data)
-                return ConversationHandler.END
-            else:
-                update.message.reply_text("想改成啥？")
-                return actions[update.message.text]
-    except KeyError:
-        reaction=['最后一次，大笨驴 😡','没听明白咱在说啥？😠','汝刚刚说了啥？所以，再来一次 😯']
-        update.message.reply_text(reaction[chat_data['refuse_level']],
-                                  reply_markup=ReplyKeyboardMarkup(confirm_keyboard, one_time_keyboard=True))
-        return CONFIRM
+    success(bot,update,chat_data)
+    return ConversationHandler.END
 
 def terminate(update,chat_data):
     ''' _(:з」∠)_'''

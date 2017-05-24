@@ -37,9 +37,6 @@ class MemoBot:
                                                 pass_chat_data=True)],
                     actions.TAG: [MessageHandler(Filters.text,
                                                 actions.add_tag,
-                                                pass_chat_data=True)],
-                    actions.CONFIRM: [MessageHandler(Filters.text,
-                                                actions.add_confirm,
                                                 pass_chat_data=True)]                     
             },
             fallbacks=[CommandHandler('cancel', actions.cancel,pass_chat_data=True)])
